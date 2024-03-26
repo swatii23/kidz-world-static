@@ -21,7 +21,7 @@ function printDetails() {
         console.log(`${item}: ${cart[item]}`);
     }
     let totalAmount = calculateTotalAmount();
-    console.log("Total Amount:", totalAmount);
+    console.log(`Total Amount: $ ${totalAmount}`);
 }
 
 const calculateTotalAmount = () => {
@@ -53,6 +53,21 @@ const getItemPrice = (itemName) => {
     return prices[itemName] || 0;
 }
 
+function generateMessage() {
+    let message = "Order Details:\n";
+    for (let item in cart) {
+        message += `${item}: ${cart[item]} pcs\n`;
+    }
+    let totalAmount = calculateTotalAmount();
+    message += `Total Amount: $${totalAmount}`;
+    return message;
+}
+function sendMessage(message){
+    let phoneNumber = '7870057678';;
+    let whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
 document.querySelectorAll('.button').forEach(button => {
     button.addEventListener('click', () => {
         let itemName = button.parentNode.parentNode.querySelector('h3').textContent;
@@ -60,4 +75,7 @@ document.querySelectorAll('.button').forEach(button => {
     });
 });
 
-document.getElementById('cart').addEventListener('click', printDetails);
+document.getElementById('cart').addEventListener('click', () => {
+    printDetails();
+    sendMessage(generateMessage());
+});
